@@ -44,36 +44,26 @@ except:
 
 # Now we have to use that list of links and go trought it to get the data we want.
 
-js = []
-ts = []
-css = []
-html = []
+
+mainLanguage = []
+percentage = []
 
 
 for url in urls:
     driver.get(url)
     sleep(3)
     try:
-        txtjs = driver.find_elements(
+        txtLanguage = driver.find_elements(
             By.CSS_SELECTOR,
-            "div.Layout.Layout--flowRow-until-md.Layout--sidebarPosition-end.Layout--sidebarPosition-flowRow-end > div > div > div> div> ul>li:nth-child(3)>a>span:nth-child(3)",
+            "div.Layout.Layout--flowRow-until-md.Layout--sidebarPosition-end.Layout--sidebarPosition-flowRow-end > div > div > div> div> ul>li:nth-child(1)>a>span:nth-child(2)",
         )
-        txtTs = driver.find_elements(
+
+        txtPercentage = driver.find_elements(
             By.CSS_SELECTOR,
-            "div.Layout.Layout--flowRow-until-md.Layout--sidebarPosition-end.Layout--sidebarPosition-flowRow-end > div > div > div> div> ul>li:nth-child(3)>a>span:nth-child(3)",
+            "div.Layout.Layout--flowRow-until-md.Layout--sidebarPosition-end.Layout--sidebarPosition-flowRow-end > div > div > div> div> ul>li:nth-child(1)>a>span:nth-child(3)",
         )
-        txtCSS = driver.find_elements(
-            By.CSS_SELECTOR,
-            "div.Layout.Layout--flowRow-until-md.Layout--sidebarPosition-end.Layout--sidebarPosition-flowRow-end > div > div > div> div> ul>li:nth-child(3)>a>span:nth-child(3)",
-        )
-        txtHTML = driver.find_elements(
-            By.CSS_SELECTOR,
-            "div.Layout.Layout--flowRow-until-md.Layout--sidebarPosition-end.Layout--sidebarPosition-flowRow-end > div > div > div> div> ul>li:nth-child(3)>a>span:nth-child(3)",
-        )
-        js.append(getElementsText(txtjs))
-        ts.append(getElementsText(txtTs))
-        css.append(getElementsText(txtCSS))
-        html.append(getElementsText(txtHTML))
+        mainLanguage.append(getElementsText(txtLanguage))
+        percentage.append(getElementsText(txtPercentage))
         driver.save_screenshot("./evidence/" + url.split("IvanGaray/")[1] + ".png")
     except:
         print("Something went wrong")
@@ -83,10 +73,8 @@ print("Finished!")
 # Making the structure using the data
 data_repositories = {
     "title": titles,
-    "CSS": css,
-    "HTML": html,
-    "JavaScript": js,
-    "TypeScript": ts,
+    "main language": mainLanguage,
+    "percentage": percentage,
 }
 
 df = pd.DataFrame(data_repositories)
